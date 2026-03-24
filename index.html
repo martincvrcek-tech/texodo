@@ -4,9 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Texodo – Bezpečnostní vybavení &amp; pracovní oděvy</title>
+  <meta name="description" content="Bezpečnostní vybavení, pracovní oděvy a firemní textil. Česká firma s 25 lety zkušeností. Poradenství zdarma." />
+  <meta property="og:title" content="Texodo – Bezpečnostní vybavení &amp; pracovní oděvy" />
+  <meta property="og:description" content="Váš partner pro bezpečnost na pracovišti. Kompletní sortiment pracovních oděvů, OOPP a firemního textilu na míru." />
+  <meta property="og:image" content="img/hero.jpg" />
+  <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" /></noscript>
   <style>
 /* ── Reset ── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -228,16 +235,16 @@ img{display:block;max-width:100%}
 <nav class="nav" id="nav">
   <div class="nav__inner">
     <a href="#" class="nav__logo">
-      <img src="https://www.texodo.cz/wp-content/uploads/2024/05/cropped-logo_texodo.jpg" alt="Texodo" />
+      <img src="img/logo.jpg" alt="Texodo" />
     </a>
-    <ul class="nav__links">
+    <ul class="nav__links" id="nav-links">
       <li><a href="#produkty">Produkty</a></li>
       <li><a href="#sluzby">Služby</a></li>
       <li><a href="#o-nas">O nás</a></li>
       <li><a href="#kontakt">Kontakt</a></li>
     </ul>
     <a href="#kontakt" class="btn btn--primary nav__cta">Poptávka zdarma</a>
-    <button class="nav__burger" aria-label="Menu">
+    <button class="nav__burger" id="burger" aria-expanded="false" aria-controls="nav-links" aria-label="Otevřít navigaci">
       <span></span><span></span><span></span>
     </button>
   </div>
@@ -256,7 +263,7 @@ img{display:block;max-width:100%}
   </div>
   <div class="hero__image-wrap">
     <img
-      src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1400&q=80"
+      src="img/hero.jpg"
       alt="Profesionální pracovní vybavení"
       loading="eager"
     />
@@ -432,13 +439,13 @@ img{display:block;max-width:100%}
     <div class="feature__visual">
       <div class="photo-grid">
         <div class="photo-grid__item photo-grid__item--tall">
-          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&q=80" alt="Pracovní oděvy" loading="lazy" />
+          <img src="img/work1.jpg" alt="Pracovní oděvy" loading="lazy" />
         </div>
         <div class="photo-grid__item">
-          <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=600&q=80" alt="Bezpečnostní vybavení" loading="lazy" />
+          <img src="img/work2.jpg" alt="Bezpečnostní vybavení" loading="lazy" />
         </div>
         <div class="photo-grid__item">
-          <img src="https://images.unsplash.com/photo-1571786256017-aee7a0c009b6?auto=format&fit=crop&w=600&q=80" alt="Firemní textil" loading="lazy" />
+          <img src="img/work3.jpg" alt="Firemní textil" loading="lazy" />
         </div>
       </div>
     </div>
@@ -449,7 +456,7 @@ img{display:block;max-width:100%}
 <section class="section section--gray" id="o-nas">
   <div class="container about__inner">
     <div class="about__img reveal">
-      <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80" alt="Texodo tým" loading="lazy" />
+      <img src="img/about.jpg" alt="Texodo tým" loading="lazy" />
       <div class="about__img-badge">
         <strong>1999</strong>
         <span>rok založení</span>
@@ -640,13 +647,21 @@ img{display:block;max-width:100%}
   window.addEventListener('scroll', () => nav.classList.toggle('nav--scrolled', scrollY > 20), {passive:true});
 
   // Burger
-  document.querySelector('.nav__burger').addEventListener('click', () => {
-    document.querySelector('.nav__links').classList.toggle('nav__links--open');
+  const burger = document.getElementById('burger');
+  const navLinks = document.getElementById('nav-links');
+  burger.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('nav__links--open');
+    burger.setAttribute('aria-expanded', isOpen);
+    burger.setAttribute('aria-label', isOpen ? 'Zavřít navigaci' : 'Otevřít navigaci');
   });
 
   // Close menu on link click
   document.querySelectorAll('.nav__links a').forEach(a => {
-    a.addEventListener('click', () => document.querySelector('.nav__links').classList.remove('nav__links--open'));
+    a.addEventListener('click', () => {
+      navLinks.classList.remove('nav__links--open');
+      burger.setAttribute('aria-expanded', 'false');
+      burger.setAttribute('aria-label', 'Otevřít navigaci');
+    });
   });
 
   // Scroll reveal
@@ -656,13 +671,45 @@ img{display:block;max-width:100%}
   document.querySelectorAll('.card,.stat,.service-card,.reveal,.feature__text,.feature__visual,.contact__left,.contact__right,.about__content')
     .forEach(el => observer.observe(el));
 
-  // Form submit
+  // Form submit — Formspree
+  // Zaregistruj se na formspree.io, vytvoř formulář a nahraď YOUR_FORM_ID níže
+  const FORMSPREE_ID = 'YOUR_FORM_ID';
+
   function handleSubmit(e) {
     e.preventDefault();
-    const btn = e.target.querySelector('.form-submit');
-    btn.textContent = '✓ Odesláno! Ozveme se vám.';
-    btn.style.background = '#10b981';
+    const form = e.target;
+    const btn = form.querySelector('.form-submit');
+
+    if (FORMSPREE_ID === 'YOUR_FORM_ID') {
+      // Záloha: otevře e-mailového klienta, pokud není Formspree nakonfigurováno
+      const name    = form.querySelector('#name').value;
+      const email   = form.querySelector('#email').value;
+      const message = form.querySelector('#message').value;
+      window.location.href = `mailto:texodo@texodo.cz?subject=Poptávka od ${encodeURIComponent(name)}&body=${encodeURIComponent(message + '\n\nOdpověď: ' + email)}`;
+      return;
+    }
+
+    btn.textContent = 'Odesílám…';
     btn.disabled = true;
+
+    fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    })
+    .then(r => {
+      if (r.ok) {
+        btn.textContent = '✓ Odesláno! Ozveme se vám.';
+        btn.style.background = '#10b981';
+      } else {
+        throw new Error();
+      }
+    })
+    .catch(() => {
+      btn.textContent = 'Odeslat poptávku';
+      btn.disabled = false;
+      alert('Chyba odeslání. Kontaktujte nás přímo na texodo@texodo.cz');
+    });
   }
 </script>
 </body>
