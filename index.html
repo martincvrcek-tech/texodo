@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Texodo – Bezpečnostní vybavení &amp; pracovní oděvy</title>
+  <style>
+/* ── Reset & Base ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --blue:    #0071e3;
+  --blue-dk: #0058b0;
+  --dark:    #0a0a0a;
+  --mid:     #1c1c1e;
+  --gray:    #6e6e73;
+  --light:   #f5f5f7;
+  --white:   #ffffff;
+  --accent:  #0071e3;
+  --radius:  16px;
+  --shadow:  0 2px 24px rgba(0,0,0,.08);
+  --trans:   .35s cubic-bezier(.25,.46,.45,.94);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--dark);
+  background: var(--white);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+img { display: block; max-width: 100%; }
+
+.container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ── Buttons ─────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 13px 28px;
+  border-radius: 980px;
+  font-size: .95rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: var(--trans);
+  white-space: nowrap;
+}
+.btn--primary { background: var(--blue); color: #fff; }
+.btn--primary:hover { background: var(--blue-dk); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,113,227,.35); }
+.btn--outline  { background: transparent; color: var(--dark); border: 1.5px solid rgba(0,0,0,.2); }
+.btn--outline:hover  { border-color: var(--blue); color: var(--blue); }
+.btn--ghost    { background: transparent; color: var(--blue); padding-left: 0; padding-right: 0; }
+.btn--ghost:hover { opacity: .75; }
+.btn--white    { background: #fff; color: var(--blue); font-weight: 600; }
+.btn--white:hover { background: var(--light); }
+
+/* ── Nav ─────────────────────────────────────────────────── */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  backdrop-filter: saturate(180%) blur(20px);
+  background: rgba(255,255,255,.72);
+  border-bottom: 1px solid rgba(0,0,0,.06);
+  transition: box-shadow var(--trans);
+}
+.nav--scrolled { box-shadow: 0 2px 20px rgba(0,0,0,.08); }
+.nav__inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+.nav__logo img {
+  height: 38px;
+  width: auto;
+  object-fit: contain;
+}
+.nav__links {
+  display: flex;
+  gap: 32px;
+  margin-left: auto;
+}
+.nav__links a {
+  font-size: .9rem;
+  color: var(--dark);
+  opacity: .8;
+  transition: opacity var(--trans);
+}
+.nav__links a:hover { opacity: 1; }
+.nav__burger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+.nav__burger span { display: block; width: 22px; height: 2px; background: var(--dark); border-radius: 2px; }
+
+/* ── Hero ─────────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: linear-gradient(160deg, #f0f4ff 0%, #fafafa 60%, #e8f5e9 100%);
+}
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 75% 40%, rgba(0,113,227,.12) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 20% 70%, rgba(16,185,129,.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero__content {
+  position: relative;
+  padding-top: 100px;
+  padding-bottom: 80px;
+  max-width: 740px;
+}
+.hero__eyebrow {
+  display: inline-block;
+  font-size: .8rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 20px;
+  padding: 6px 14px;
+  background: rgba(0,113,227,.08);
+  border-radius: 999px;
+}
+.hero__title {
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -.03em;
+  color: var(--dark);
+  margin-bottom: 24px;
+}
+.hero__sub {
+  font-size: 1.2rem;
+  color: var(--gray);
+  max-width: 540px;
+  margin-bottom: 40px;
+  line-height: 1.7;
+}
+.hero__actions { display: flex; gap: 16px; flex-wrap: wrap; }
+
+.hero__scroll-hint {
+  position: absolute;
+  bottom: 36px; left: 50%;
+  transform: translateX(-50%);
+  width: 26px; height: 42px;
+  border: 2px solid rgba(0,0,0,.2);
+  border-radius: 13px;
+  display: flex; justify-content: center;
+}
+.hero__scroll-hint span {
+  display: block;
+  width: 4px; height: 8px;
+  background: rgba(0,0,0,.3);
+  border-radius: 2px;
+  margin-top: 6px;
+  animation: scroll-dot 1.6s infinite;
+}
+@keyframes scroll-dot {
+  0%,100% { opacity: 1; transform: translateY(0); }
+  50%      { opacity: 0; transform: translateY(10px); }
+}
+
+/* ── Stats ───────────────────────────────────────────────── */
+.stats {
+  background: var(--dark);
+  padding: 64px 24px;
+}
+.stats__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  text-align: center;
+}
+.stat__num {
+  display: block;
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -.03em;
+}
+.stat__label {
+  display: block;
+  font-size: .875rem;
+  color: rgba(255,255,255,.5);
+  margin-top: 6px;
+}
+
+/* ── Section header ──────────────────────────────────────── */
+.section { padding: 112px 0; }
+.section__header { text-align: center; max-width: 640px; margin: 0 auto 72px; }
+.section__eyebrow {
+  font-size: .78rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 14px;
+}
+.section__title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -.03em;
+  line-height: 1.1;
+  color: var(--dark);
+  margin-bottom: 20px;
+}
+.section__sub { font-size: 1.05rem; color: var(--gray); line-height: 1.7; }
+
+/* ── Cards ───────────────────────────────────────────────── */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.card {
+  background: var(--light);
+  border-radius: var(--radius);
+  padding: 36px 32px;
+  border: 1px solid rgba(0,0,0,.06);
+  transition: var(--trans);
+  opacity: 0;
+  transform: translateY(24px);
+}
+.card.visible { opacity: 1; transform: none; }
+.card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,.1); background: #fff; }
+.card__icon {
+  width: 52px; height: 52px;
+  background: rgba(0,113,227,.1);
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--blue);
+  margin-bottom: 24px;
+}
+.card__icon svg { width: 26px; height: 26px; }
+.card__title { font-size: 1.1rem; font-weight: 700; margin-bottom: 12px; color: var(--dark); }
+.card__desc  { font-size: .93rem; color: var(--gray); line-height: 1.65; margin-bottom: 20px; }
+.card__link  { font-size: .88rem; font-weight: 600; color: var(--blue); }
+.card__link:hover { text-decoration: underline; }
+
+/* ── Feature split ───────────────────────────────────────── */
+.feature { background: var(--light); padding: 112px 0; }
+.feature__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.feature__text { opacity: 0; transform: translateX(-24px); transition: var(--trans); }
+.feature__text.visible { opacity: 1; transform: none; }
+.feature__visual { opacity: 0; transform: translateX(24px); transition: var(--trans); }
+.feature__visual.visible { opacity: 1; transform: none; }
+
+.feature__desc { font-size: 1.05rem; color: var(--gray); line-height: 1.7; margin: 20px 0 28px; }
+.feature__list { display: flex; flex-direction: column; gap: 14px; }
+.feature__list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: .95rem;
+  color: var(--mid);
+}
+.check { width: 20px; height: 20px; flex-shrink: 0; color: var(--blue); }
+
+/* Card stack visual */
+.feature__card-stack {
+  position: relative;
+  height: 320px;
+  perspective: 800px;
+}
+.fcard {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+}
+.fcard--back {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  transform: rotate(-6deg) translateY(20px);
+  opacity: .4;
+}
+.fcard--mid {
+  background: linear-gradient(135deg, #60a5fa, #3b82f6);
+  transform: rotate(-3deg) translateY(10px);
+  opacity: .65;
+}
+.fcard--front {
+  background: #fff;
+  box-shadow: 0 24px 64px rgba(0,0,0,.14);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px;
+  transform: rotate(0);
+}
+.fcard__badge {
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--blue);
+  background: rgba(0,113,227,.1);
+  padding: 5px 12px;
+  border-radius: 999px;
+  margin-bottom: 20px;
+}
+.fcard__label { font-size: 1.4rem; font-weight: 800; color: var(--dark); margin-bottom: 24px; }
+.fcard__dots { display: flex; gap: 10px; margin-bottom: 12px; }
+.fcard__dots span { width: 32px; height: 32px; border-radius: 50%; }
+.fcard__sub { font-size: .85rem; color: var(--gray); }
+
+/* ── About ───────────────────────────────────────────────── */
+.about__inner .section__header { margin-bottom: 56px; }
+.about__pillars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+.pillar {
+  text-align: center;
+  padding: 40px 28px;
+  background: var(--light);
+  border-radius: var(--radius);
+  border: 1px solid rgba(0,0,0,.06);
+  opacity: 0; transform: translateY(20px); transition: var(--trans);
+}
+.pillar.visible { opacity: 1; transform: none; }
+.pillar__icon { font-size: 2.4rem; margin-bottom: 16px; }
+.pillar h4 { font-size: 1.05rem; font-weight: 700; margin-bottom: 10px; }
+.pillar p  { font-size: .9rem; color: var(--gray); line-height: 1.6; }
+
+/* ── CTA Banner ──────────────────────────────────────────── */
+.cta-banner {
+  background: linear-gradient(135deg, var(--blue) 0%, #0055b3 100%);
+  padding: 80px 24px;
+}
+.cta-banner__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.cta-banner__title { font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 800; color: #fff; margin-bottom: 8px; }
+.cta-banner__sub   { color: rgba(255,255,255,.7); font-size: 1rem; }
+
+/* ── Contact ─────────────────────────────────────────────── */
+.contact__grid {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 64px;
+  align-items: start;
+}
+.contact__info { opacity: 0; transform: translateX(-24px); transition: var(--trans); }
+.contact__info.visible { opacity: 1; transform: none; }
+.contact__form { opacity: 0; transform: translateX(24px); transition: var(--trans); }
+.contact__form.visible { opacity: 1; transform: none; }
+
+.contact__item {
+  display: flex; gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 32px;
+}
+.contact__icon { font-size: 1.5rem; margin-top: 2px; }
+.contact__label { font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: var(--gray); margin-bottom: 4px; }
+.contact__val { font-size: 1rem; font-weight: 500; color: var(--dark); }
+.contact__val:hover { color: var(--blue); }
+
+/* Form */
+.contact__form { background: var(--light); border-radius: 20px; padding: 40px; border: 1px solid rgba(0,0,0,.06); }
+.form__row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form__group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 20px; }
+.form__group label { font-size: .83rem; font-weight: 600; color: var(--mid); }
+.form__group input,
+.form__group textarea {
+  background: #fff;
+  border: 1.5px solid rgba(0,0,0,.12);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-family: inherit;
+  font-size: .95rem;
+  color: var(--dark);
+  transition: border-color var(--trans), box-shadow var(--trans);
+  outline: none;
+  resize: vertical;
+}
+.form__group input::placeholder,
+.form__group textarea::placeholder { color: #aaa; }
+.form__group input:focus,
+.form__group textarea:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(0,113,227,.15);
+}
+
+/* ── Footer ──────────────────────────────────────────────── */
+.footer { background: var(--dark); padding: 72px 0 0; }
+.footer__inner {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 48px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.footer__logo { height: 36px; width: auto; object-fit: contain; margin-bottom: 16px; filter: brightness(0) invert(1); }
+.footer__brand p { font-size: .9rem; color: rgba(255,255,255,.45); line-height: 1.7; max-width: 280px; }
+.footer__heading { font-size: .78rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.35); margin-bottom: 16px; }
+.footer__nav { display: flex; flex-direction: column; gap: 10px; }
+.footer__nav a { font-size: .9rem; color: rgba(255,255,255,.55); transition: color var(--trans); }
+.footer__nav a:hover { color: #fff; }
+.footer__bottom { text-align: center; padding: 20px 24px; }
+.footer__bottom p { font-size: .82rem; color: rgba(255,255,255,.25); }
+
+/* ── Scroll reveal defaults ──────────────────────────────── */
+.stat { opacity: 0; transform: translateY(16px); transition: var(--trans); }
+.stat.visible { opacity: 1; transform: none; }
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .cards { grid-template-columns: 1fr 1fr; }
+  .feature__inner { grid-template-columns: 1fr; gap: 48px; }
+  .feature__card-stack { height: 260px; }
+  .about__pillars { grid-template-columns: 1fr; }
+  .contact__grid { grid-template-columns: 1fr; }
+  .stats__grid { grid-template-columns: repeat(2, 1fr); }
+  .footer__inner { grid-template-columns: 1fr 1fr; }
+  .footer__brand { grid-column: 1/-1; }
+  .form__row { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+  .cards { grid-template-columns: 1fr; }
+  .nav__links { display: none; flex-direction: column; position: absolute; top: 64px; left: 0; right: 0; background: rgba(255,255,255,.96); backdrop-filter: blur(20px); padding: 16px 24px 24px; border-bottom: 1px solid rgba(0,0,0,.08); }
+  .nav__links--open { display: flex; }
+  .nav__burger { display: flex; margin-left: auto; }
+  .nav__inner .btn--outline { display: none; }
+  .hero__title { font-size: 2.8rem; }
+  .stats__grid { grid-template-columns: 1fr 1fr; }
+  .cta-banner__inner { flex-direction: column; text-align: center; }
+  .footer__inner { grid-template-columns: 1fr; }
+}
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="#" class="nav__logo">
+        <img src="https://www.texodo.cz/wp-content/uploads/2024/05/cropped-logo_texodo.jpg" alt="Texodo logo" />
+      </a>
+      <ul class="nav__links">
+        <li><a href="#produkty">Produkty</a></li>
+        <li><a href="#sluzby">Služby</a></li>
+        <li><a href="#o-nas">O nás</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+      </ul>
+      <a href="#kontakt" class="btn btn--outline">Kontaktujte nás</a>
+      <button class="nav__burger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero__bg"></div>
+    <div class="container hero__content">
+      <p class="hero__eyebrow">Váš partner pro bezpečnost na pracovišti</p>
+      <h1 class="hero__title">Vybavení,<br />které chrání.</h1>
+      <p class="hero__sub">Kompletní sortiment pracovních oděvů, ochranných pomůcek a firemního textilu na míru. Kvalita, na kterou se můžete spolehnout každý den.</p>
+      <div class="hero__actions">
+        <a href="#produkty" class="btn btn--primary">Prohlédnout produkty</a>
+        <a href="#kontakt" class="btn btn--ghost">Nezávazná poptávka →</a>
+      </div>
+    </div>
+    <div class="hero__scroll-hint">
+      <span></span>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div class="container stats__grid">
+      <div class="stat">
+        <span class="stat__num">25+</span>
+        <span class="stat__label">let na trhu</span>
+      </div>
+      <div class="stat">
+        <span class="stat__num">500+</span>
+        <span class="stat__label">spokojených firem</span>
+      </div>
+      <div class="stat">
+        <span class="stat__num">10 000+</span>
+        <span class="stat__label">produktů v katalogu</span>
+      </div>
+      <div class="stat">
+        <span class="stat__num">100%</span>
+        <span class="stat__label">záruční servis</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUKTY -->
+  <section class="section" id="produkty">
+    <div class="container">
+      <div class="section__header">
+        <p class="section__eyebrow">Sortiment</p>
+        <h2 class="section__title">Vše pro váš tým<br />na jednom místě</h2>
+        <p class="section__sub">Od ochranných pomůcek po firemní uniformy – dodáváme kompletní vybavení přizpůsobené vašemu oboru.</p>
+      </div>
+      <div class="cards">
+        <div class="card">
+          <div class="card__icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M24 4C15.16 4 8 11.16 8 20c0 5.96 3.24 11.16 8 14.02V44h16v-9.98C37.76 31.16 41 25.96 41 20c0-8.84-7.16-16-17-16z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+              <path d="M18 44h12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 class="card__title">Pracovní oděvy</h3>
+          <p class="card__desc">Profesionální pracovní oblečení a uniformy pro všechna pracovní prostředí. Trvanlivé materiály, ergonomický střih.</p>
+          <a href="#kontakt" class="card__link">Zjistit více →</a>
+        </div>
+        <div class="card">
+          <div class="card__icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <ellipse cx="24" cy="20" rx="14" ry="8" stroke="currentColor" stroke-width="2.5"/>
+              <path d="M10 20c0 6 5.82 10 14 10s14-4 14-10" stroke="currentColor" stroke-width="2.5"/>
+              <path d="M16 38l-2 4M32 38l2 4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 class="card__title">OOPP &amp; ochrana</h3>
+          <p class="card__desc">Ochranné brýle, sluchátka, přilby a rukavice splňující přísné bezpečnostní normy EU.</p>
+          <a href="#kontakt" class="card__link">Zjistit více →</a>
+        </div>
+        <div class="card">
+          <div class="card__icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 36l8-12 8 6 8-10 8 16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <rect x="4" y="8" width="40" height="32" rx="3" stroke="currentColor" stroke-width="2.5"/>
+            </svg>
+          </div>
+          <h3 class="card__title">Obuv JOMA</h3>
+          <p class="card__desc">Pracovní, outdoorové i sportovní boty značky JOMA. Komfort a ochrana pro každý terén a podmínky.</p>
+          <a href="#kontakt" class="card__link">Zjistit více →</a>
+        </div>
+        <div class="card">
+          <div class="card__icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M24 6L6 16v16l18 10 18-10V16L24 6z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+              <path d="M6 16l18 10M24 26v16M42 16L24 26" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 class="card__title">Firemní textil</h3>
+          <p class="card__desc">Výroba firemního textilu s vaším logem – výšivka, termotisk. Reprezentujte svou značku profesionálně.</p>
+          <a href="#kontakt" class="card__link">Zjistit více →</a>
+        </div>
+        <div class="card">
+          <div class="card__icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 20h24M12 28h16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M8 10h32a2 2 0 012 2v24a2 2 0 01-2 2H8a2 2 0 01-2-2V12a2 2 0 012-2z" stroke="currentColor" stroke-width="2.5"/>
+            </svg>
+          </div>
+          <h3 class="card__title">Lovecký sortiment</h3>
+          <p class="card__desc">Specializované oblečení a vybavení pro lov. Funkční materiály odolné vůči povětrnostním podmínkám.</p>
+          <a href="#kontakt" class="card__link">Zjistit více →</a>
+        </div>
+        <div class="card">
+          <div class="card__icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M24 4v4M24 40v4M4 24h4M40 24h4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+              <circle cx="24" cy="24" r="12" stroke="currentColor" stroke-width="2.5"/>
+              <circle cx="24" cy="24" r="4" stroke="currentColor" stroke-width="2.5"/>
+            </svg>
+          </div>
+          <h3 class="card__title">Záruční servis</h3>
+          <p class="card__desc">Komplexní záruční i pozáruční servis. Rychlé vyřízení reklamací a náhradní vybavení bez prodlení.</p>
+          <a href="#kontakt" class="card__link">Zjistit více →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLUZBY / FEATURE SPLIT -->
+  <section class="feature" id="sluzby">
+    <div class="container feature__inner">
+      <div class="feature__text">
+        <p class="section__eyebrow">Proč Texodo</p>
+        <h2 class="section__title">Na míru každé firmě</h2>
+        <p class="feature__desc">Nejen dodáváme produkty – stáváme se vaším dlouhodobým partnerem. Poradíme vám s výběrem, navrhneme potisk nebo výšivku a postaráme se o kompletní záruční servis.</p>
+        <ul class="feature__list">
+          <li>
+            <svg class="check" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M6 10l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Vlastní design a branding na pracovní oděvy
+          </li>
+          <li>
+            <svg class="check" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M6 10l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Výšivka &amp; termotisk přímo v naší dílně
+          </li>
+          <li>
+            <svg class="check" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M6 10l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Produkty splňující normy BOZP a EU
+          </li>
+          <li>
+            <svg class="check" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M6 10l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Osobní odběr i doručení po celé ČR
+          </li>
+          <li>
+            <svg class="check" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M6 10l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Věrnostní program pro firemní zákazníky
+          </li>
+        </ul>
+        <a href="#kontakt" class="btn btn--primary" style="margin-top:2rem;">Poptejte nabídku</a>
+      </div>
+      <div class="feature__visual">
+        <div class="feature__card-stack">
+          <div class="fcard fcard--back"></div>
+          <div class="fcard fcard--mid"></div>
+          <div class="fcard fcard--front">
+            <div class="fcard__badge">Firemní řešení</div>
+            <p class="fcard__label">Vaše logo na každém kousku</p>
+            <div class="fcard__dots">
+              <span style="background:#3b82f6"></span>
+              <span style="background:#f59e0b"></span>
+              <span style="background:#10b981"></span>
+            </div>
+            <p class="fcard__sub">Výšivka · Termotisk · Plnobarevný potisk</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- O NAS -->
+  <section class="section about" id="o-nas">
+    <div class="container about__inner">
+      <div class="section__header">
+        <p class="section__eyebrow">O společnosti</p>
+        <h2 class="section__title">Texodo spol. s r.o.</h2>
+        <p class="section__sub">Jsme česká rodinná firma s více než 25letou tradicí v dodávkách bezpečnostního vybavení a pracovních oděvů. Naším cílem je zajistit bezpečnost a pohodlí vašich zaměstnanců – od prvního kontaktu až po záruční servis.</p>
+      </div>
+      <div class="about__pillars">
+        <div class="pillar">
+          <div class="pillar__icon">🏭</div>
+          <h4>Vlastní výroba</h4>
+          <p>Pracovní oděvy a firemní textil šijeme a potiskujeme přímo v naší dílně.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar__icon">🛡️</div>
+          <h4>Certifikované produkty</h4>
+          <p>Veškeré OOPP splňují platné normy EU a požadavky bezpečnosti práce.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar__icon">🤝</div>
+          <h4>Partnerský přístup</h4>
+          <p>Ke každému zákazníkovi přistupujeme individuálně a nabízíme poradenství zdarma.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <section class="cta-banner">
+    <div class="container cta-banner__inner">
+      <div>
+        <h2 class="cta-banner__title">Připraveni vybavit váš tým?</h2>
+        <p class="cta-banner__sub">Kontaktujte nás – sestavíme nabídku přesně na míru vašim potřebám.</p>
+      </div>
+      <a href="#kontakt" class="btn btn--white">Nezávazná poptávka</a>
+    </div>
+  </section>
+
+  <!-- KONTAKT -->
+  <section class="section" id="kontakt">
+    <div class="container">
+      <div class="section__header">
+        <p class="section__eyebrow">Kontakt</p>
+        <h2 class="section__title">Ozvěte se nám</h2>
+        <p class="section__sub">Jsme tu pro vás v pracovní dny. Rádi zodpovíme vaše dotazy a připravíme nabídku.</p>
+      </div>
+      <div class="contact__grid">
+        <div class="contact__info">
+          <div class="contact__item">
+            <div class="contact__icon">📞</div>
+            <div>
+              <p class="contact__label">Telefon</p>
+              <a href="tel:+420383321463" class="contact__val">+420 383 321 463</a><br/>
+              <a href="tel:+420602469958" class="contact__val">+420 602 469 958</a>
+            </div>
+          </div>
+          <div class="contact__item">
+            <div class="contact__icon">✉️</div>
+            <div>
+              <p class="contact__label">E-mail</p>
+              <a href="mailto:texodo@texodo.cz" class="contact__val">texodo@texodo.cz</a>
+            </div>
+          </div>
+          <div class="contact__item">
+            <div class="contact__icon">🌐</div>
+            <div>
+              <p class="contact__label">Web</p>
+              <a href="https://www.texodo.cz" class="contact__val" target="_blank" rel="noopener">www.texodo.cz</a>
+            </div>
+          </div>
+        </div>
+        <form class="contact__form" onsubmit="return false;">
+          <div class="form__row">
+            <div class="form__group">
+              <label for="name">Jméno a příjmení</label>
+              <input type="text" id="name" placeholder="Jan Novák" />
+            </div>
+            <div class="form__group">
+              <label for="company">Firma</label>
+              <input type="text" id="company" placeholder="Název firmy" />
+            </div>
+          </div>
+          <div class="form__group">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" placeholder="jan@firma.cz" />
+          </div>
+          <div class="form__group">
+            <label for="message">Zpráva</label>
+            <textarea id="message" rows="4" placeholder="Popište, co hledáte…"></textarea>
+          </div>
+          <button type="submit" class="btn btn--primary" style="width:100%;">Odeslat poptávku</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <img src="https://www.texodo.cz/wp-content/uploads/2024/05/cropped-logo_texodo.jpg" alt="Texodo" class="footer__logo" />
+        <p>Kompletní bezpečnostní vybavení a pracovní oděvy od českého dodavatele s tradicí.</p>
+      </div>
+      <div class="footer__nav">
+        <p class="footer__heading">Produkty</p>
+        <a href="#produkty">Pracovní oděvy</a>
+        <a href="#produkty">OOPP &amp; ochrana</a>
+        <a href="#produkty">Obuv JOMA</a>
+        <a href="#produkty">Firemní textil</a>
+      </div>
+      <div class="footer__nav">
+        <p class="footer__heading">Firma</p>
+        <a href="#o-nas">O nás</a>
+        <a href="#sluzby">Služby</a>
+        <a href="#kontakt">Kontakt</a>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>© 2025 Texodo spol. s r.o. · Všechna práva vyhrazena</p>
+    </div>
+  </footer>
+
+  <script>
+    // Sticky nav shadow
+    const nav = document.querySelector('.nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('nav--scrolled', window.scrollY > 20);
+    });
+
+    // Burger menu
+    const burger = document.querySelector('.nav__burger');
+    const navLinks = document.querySelector('.nav__links');
+    burger.addEventListener('click', () => {
+      navLinks.classList.toggle('nav__links--open');
+    });
+
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('visible');
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.card, .stat, .pillar, .feature__text, .feature__visual, .contact__info, .contact__form')
+      .forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
