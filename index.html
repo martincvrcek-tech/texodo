@@ -36,7 +36,7 @@ img{display:block;max-width:100%}
 .btn--white:hover{background:var(--light)}
 
 /* ── Nav ── */
-.nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:saturate(180%) blur(20px);background:rgba(255,255,255,.8);border-bottom:1px solid rgba(0,0,0,.08);transition:box-shadow var(--trans)}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:#fff;border-bottom:1px solid rgba(0,0,0,.08);transition:box-shadow var(--trans)}
 .nav--scrolled{box-shadow:0 2px 20px rgba(0,0,0,.1)}
 .nav__inner{max-width:1120px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;gap:32px}
 .nav__logo img{height:36px;width:auto;object-fit:contain}
@@ -178,7 +178,7 @@ img{display:block;max-width:100%}
 /* ── Footer ── */
 .footer{background:#050505;padding:72px 0 0}
 .footer__inner{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;padding-bottom:56px;border-bottom:1px solid rgba(255,255,255,.06)}
-.footer__logo{height:34px;width:auto;object-fit:contain;margin-bottom:16px;filter:brightness(0) invert(1)}
+.footer__logo{display:none}
 .footer__brand p{font-size:.88rem;color:rgba(255,255,255,.35);line-height:1.75;max-width:260px;margin-top:12px}
 .footer__col-title{font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:18px}
 .footer__col{display:flex;flex-direction:column;gap:10px}
@@ -432,7 +432,7 @@ img{display:block;max-width:100%}
     <div class="feature__visual">
       <div class="photo-grid">
         <div class="photo-grid__item photo-grid__item--tall">
-          <img src="https://images.unsplash.com/photo-1581092160607-ee22731c9c18?auto=format&fit=crop&w=600&q=80" alt="Pracovní oděvy" loading="lazy" />
+          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&q=80" alt="Pracovní oděvy" loading="lazy" />
         </div>
         <div class="photo-grid__item">
           <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=600&q=80" alt="Bezpečnostní vybavení" loading="lazy" />
@@ -597,7 +597,7 @@ img{display:block;max-width:100%}
 <footer class="footer">
   <div class="container footer__inner">
     <div class="footer__brand">
-      <img src="https://www.texodo.cz/wp-content/uploads/2024/05/cropped-logo_texodo.jpg" alt="Texodo" class="footer__logo" />
+      <p style="font-size:1.4rem;font-weight:800;color:#fff;letter-spacing:-.02em;margin-bottom:12px">Texodo</p>
       <p>Váš český dodavatel pracovních oděvů, bezpečnostního vybavení a firemního textilu od roku 1999.</p>
     </div>
     <div>
