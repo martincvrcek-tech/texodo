@@ -4,799 +4,666 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Texodo – Bezpečnostní vybavení &amp; pracovní oděvy</title>
-  <style>
-/* ── Reset & Base ─────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-:root {
-  --blue:    #0071e3;
-  --blue-dk: #0058b0;
-  --dark:    #0a0a0a;
-  --mid:     #1c1c1e;
-  --gray:    #6e6e73;
-  --light:   #f5f5f7;
-  --white:   #ffffff;
-  --accent:  #0071e3;
-  --radius:  16px;
-  --shadow:  0 2px 24px rgba(0,0,0,.08);
-  --trans:   .35s cubic-bezier(.25,.46,.45,.94);
-}
-
-html { scroll-behavior: smooth; }
-
-body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  color: var(--dark);
-  background: var(--white);
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-}
-
-a { text-decoration: none; color: inherit; }
-ul { list-style: none; }
-img { display: block; max-width: 100%; }
-
-.container {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 0 24px;
-}
-
-/* ── Buttons ─────────────────────────────────────────────── */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 13px 28px;
-  border-radius: 980px;
-  font-size: .95rem;
-  font-weight: 500;
-  cursor: pointer;
-  border: none;
-  transition: var(--trans);
-  white-space: nowrap;
-}
-.btn--primary { background: var(--blue); color: #fff; }
-.btn--primary:hover { background: var(--blue-dk); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,113,227,.35); }
-.btn--outline  { background: transparent; color: var(--dark); border: 1.5px solid rgba(0,0,0,.2); }
-.btn--outline:hover  { border-color: var(--blue); color: var(--blue); }
-.btn--ghost    { background: transparent; color: var(--blue); padding-left: 0; padding-right: 0; }
-.btn--ghost:hover { opacity: .75; }
-.btn--white    { background: #fff; color: var(--blue); font-weight: 600; }
-.btn--white:hover { background: var(--light); }
-
-/* ── Nav ─────────────────────────────────────────────────── */
-.nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  backdrop-filter: saturate(180%) blur(20px);
-  background: rgba(255,255,255,.72);
-  border-bottom: 1px solid rgba(0,0,0,.06);
-  transition: box-shadow var(--trans);
-}
-.nav--scrolled { box-shadow: 0 2px 20px rgba(0,0,0,.08); }
-.nav__inner {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 0 24px;
-  height: 64px;
-  display: flex;
-  align-items: center;
-  gap: 40px;
-}
-.nav__logo img {
-  height: 38px;
-  width: auto;
-  object-fit: contain;
-}
-.nav__links {
-  display: flex;
-  gap: 32px;
-  margin-left: auto;
-}
-.nav__links a {
-  font-size: .9rem;
-  color: var(--dark);
-  opacity: .8;
-  transition: opacity var(--trans);
-}
-.nav__links a:hover { opacity: 1; }
-.nav__burger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
-.nav__burger span { display: block; width: 22px; height: 2px; background: var(--dark); border-radius: 2px; }
-
-/* ── Hero ─────────────────────────────────────────────────── */
-.hero {
-  position: relative;
-  min-height: 100svh;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  background: linear-gradient(160deg, #f0f4ff 0%, #fafafa 60%, #e8f5e9 100%);
-}
-.hero__bg {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 60% 50% at 75% 40%, rgba(0,113,227,.12) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 60% at 20% 70%, rgba(16,185,129,.08) 0%, transparent 70%);
-  pointer-events: none;
-}
-.hero__content {
-  position: relative;
-  padding-top: 100px;
-  padding-bottom: 80px;
-  max-width: 740px;
-}
-.hero__eyebrow {
-  display: inline-block;
-  font-size: .8rem;
-  font-weight: 600;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: var(--blue);
-  margin-bottom: 20px;
-  padding: 6px 14px;
-  background: rgba(0,113,227,.08);
-  border-radius: 999px;
-}
-.hero__title {
-  font-size: clamp(3rem, 7vw, 5.5rem);
-  font-weight: 800;
-  line-height: 1.05;
-  letter-spacing: -.03em;
-  color: var(--dark);
-  margin-bottom: 24px;
-}
-.hero__sub {
-  font-size: 1.2rem;
-  color: var(--gray);
-  max-width: 540px;
-  margin-bottom: 40px;
-  line-height: 1.7;
-}
-.hero__actions { display: flex; gap: 16px; flex-wrap: wrap; }
-
-.hero__scroll-hint {
-  position: absolute;
-  bottom: 36px; left: 50%;
-  transform: translateX(-50%);
-  width: 26px; height: 42px;
-  border: 2px solid rgba(0,0,0,.2);
-  border-radius: 13px;
-  display: flex; justify-content: center;
-}
-.hero__scroll-hint span {
-  display: block;
-  width: 4px; height: 8px;
-  background: rgba(0,0,0,.3);
-  border-radius: 2px;
-  margin-top: 6px;
-  animation: scroll-dot 1.6s infinite;
-}
-@keyframes scroll-dot {
-  0%,100% { opacity: 1; transform: translateY(0); }
-  50%      { opacity: 0; transform: translateY(10px); }
-}
-
-/* ── Stats ───────────────────────────────────────────────── */
-.stats {
-  background: var(--dark);
-  padding: 64px 24px;
-}
-.stats__grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
-  text-align: center;
-}
-.stat__num {
-  display: block;
-  font-size: 2.8rem;
-  font-weight: 800;
-  color: #fff;
-  letter-spacing: -.03em;
-}
-.stat__label {
-  display: block;
-  font-size: .875rem;
-  color: rgba(255,255,255,.5);
-  margin-top: 6px;
-}
-
-/* ── Section header ──────────────────────────────────────── */
-.section { padding: 112px 0; }
-.section__header { text-align: center; max-width: 640px; margin: 0 auto 72px; }
-.section__eyebrow {
-  font-size: .78rem;
-  font-weight: 600;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: var(--blue);
-  margin-bottom: 14px;
-}
-.section__title {
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 800;
-  letter-spacing: -.03em;
-  line-height: 1.1;
-  color: var(--dark);
-  margin-bottom: 20px;
-}
-.section__sub { font-size: 1.05rem; color: var(--gray); line-height: 1.7; }
-
-/* ── Cards ───────────────────────────────────────────────── */
-.cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-}
-.card {
-  background: var(--light);
-  border-radius: var(--radius);
-  padding: 36px 32px;
-  border: 1px solid rgba(0,0,0,.06);
-  transition: var(--trans);
-  opacity: 0;
-  transform: translateY(24px);
-}
-.card.visible { opacity: 1; transform: none; }
-.card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,.1); background: #fff; }
-.card__icon {
-  width: 52px; height: 52px;
-  background: rgba(0,113,227,.1);
-  border-radius: 14px;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--blue);
-  margin-bottom: 24px;
-}
-.card__icon svg { width: 26px; height: 26px; }
-.card__title { font-size: 1.1rem; font-weight: 700; margin-bottom: 12px; color: var(--dark); }
-.card__desc  { font-size: .93rem; color: var(--gray); line-height: 1.65; margin-bottom: 20px; }
-.card__link  { font-size: .88rem; font-weight: 600; color: var(--blue); }
-.card__link:hover { text-decoration: underline; }
-
-/* ── Feature split ───────────────────────────────────────── */
-.feature { background: var(--light); padding: 112px 0; }
-.feature__inner {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
-  align-items: center;
-}
-.feature__text { opacity: 0; transform: translateX(-24px); transition: var(--trans); }
-.feature__text.visible { opacity: 1; transform: none; }
-.feature__visual { opacity: 0; transform: translateX(24px); transition: var(--trans); }
-.feature__visual.visible { opacity: 1; transform: none; }
-
-.feature__desc { font-size: 1.05rem; color: var(--gray); line-height: 1.7; margin: 20px 0 28px; }
-.feature__list { display: flex; flex-direction: column; gap: 14px; }
-.feature__list li {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: .95rem;
-  color: var(--mid);
-}
-.check { width: 20px; height: 20px; flex-shrink: 0; color: var(--blue); }
-
-/* Card stack visual */
-.feature__card-stack {
-  position: relative;
-  height: 320px;
-  perspective: 800px;
-}
-.fcard {
-  position: absolute;
-  inset: 0;
-  border-radius: 20px;
-}
-.fcard--back {
-  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-  transform: rotate(-6deg) translateY(20px);
-  opacity: .4;
-}
-.fcard--mid {
-  background: linear-gradient(135deg, #60a5fa, #3b82f6);
-  transform: rotate(-3deg) translateY(10px);
-  opacity: .65;
-}
-.fcard--front {
-  background: #fff;
-  box-shadow: 0 24px 64px rgba(0,0,0,.14);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 40px;
-  transform: rotate(0);
-}
-.fcard__badge {
-  font-size: .75rem;
-  font-weight: 700;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--blue);
-  background: rgba(0,113,227,.1);
-  padding: 5px 12px;
-  border-radius: 999px;
-  margin-bottom: 20px;
-}
-.fcard__label { font-size: 1.4rem; font-weight: 800; color: var(--dark); margin-bottom: 24px; }
-.fcard__dots { display: flex; gap: 10px; margin-bottom: 12px; }
-.fcard__dots span { width: 32px; height: 32px; border-radius: 50%; }
-.fcard__sub { font-size: .85rem; color: var(--gray); }
-
-/* ── About ───────────────────────────────────────────────── */
-.about__inner .section__header { margin-bottom: 56px; }
-.about__pillars {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
-}
-.pillar {
-  text-align: center;
-  padding: 40px 28px;
-  background: var(--light);
-  border-radius: var(--radius);
-  border: 1px solid rgba(0,0,0,.06);
-  opacity: 0; transform: translateY(20px); transition: var(--trans);
-}
-.pillar.visible { opacity: 1; transform: none; }
-.pillar__icon { font-size: 2.4rem; margin-bottom: 16px; }
-.pillar h4 { font-size: 1.05rem; font-weight: 700; margin-bottom: 10px; }
-.pillar p  { font-size: .9rem; color: var(--gray); line-height: 1.6; }
-
-/* ── CTA Banner ──────────────────────────────────────────── */
-.cta-banner {
-  background: linear-gradient(135deg, var(--blue) 0%, #0055b3 100%);
-  padding: 80px 24px;
-}
-.cta-banner__inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 32px;
-  flex-wrap: wrap;
-}
-.cta-banner__title { font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 800; color: #fff; margin-bottom: 8px; }
-.cta-banner__sub   { color: rgba(255,255,255,.7); font-size: 1rem; }
-
-/* ── Contact ─────────────────────────────────────────────── */
-.contact__grid {
-  display: grid;
-  grid-template-columns: 1fr 1.6fr;
-  gap: 64px;
-  align-items: start;
-}
-.contact__info { opacity: 0; transform: translateX(-24px); transition: var(--trans); }
-.contact__info.visible { opacity: 1; transform: none; }
-.contact__form { opacity: 0; transform: translateX(24px); transition: var(--trans); }
-.contact__form.visible { opacity: 1; transform: none; }
-
-.contact__item {
-  display: flex; gap: 16px;
-  align-items: flex-start;
-  margin-bottom: 32px;
-}
-.contact__icon { font-size: 1.5rem; margin-top: 2px; }
-.contact__label { font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: var(--gray); margin-bottom: 4px; }
-.contact__val { font-size: 1rem; font-weight: 500; color: var(--dark); }
-.contact__val:hover { color: var(--blue); }
-
-/* Form */
-.contact__form { background: var(--light); border-radius: 20px; padding: 40px; border: 1px solid rgba(0,0,0,.06); }
-.form__row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.form__group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 20px; }
-.form__group label { font-size: .83rem; font-weight: 600; color: var(--mid); }
-.form__group input,
-.form__group textarea {
-  background: #fff;
-  border: 1.5px solid rgba(0,0,0,.12);
-  border-radius: 10px;
-  padding: 12px 16px;
-  font-family: inherit;
-  font-size: .95rem;
-  color: var(--dark);
-  transition: border-color var(--trans), box-shadow var(--trans);
-  outline: none;
-  resize: vertical;
-}
-.form__group input::placeholder,
-.form__group textarea::placeholder { color: #aaa; }
-.form__group input:focus,
-.form__group textarea:focus {
-  border-color: var(--blue);
-  box-shadow: 0 0 0 3px rgba(0,113,227,.15);
-}
-
-/* ── Footer ──────────────────────────────────────────────── */
-.footer { background: var(--dark); padding: 72px 0 0; }
-.footer__inner {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  gap: 48px;
-  padding-bottom: 48px;
-  border-bottom: 1px solid rgba(255,255,255,.08);
-}
-.footer__logo { height: 36px; width: auto; object-fit: contain; margin-bottom: 16px; filter: brightness(0) invert(1); }
-.footer__brand p { font-size: .9rem; color: rgba(255,255,255,.45); line-height: 1.7; max-width: 280px; }
-.footer__heading { font-size: .78rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.35); margin-bottom: 16px; }
-.footer__nav { display: flex; flex-direction: column; gap: 10px; }
-.footer__nav a { font-size: .9rem; color: rgba(255,255,255,.55); transition: color var(--trans); }
-.footer__nav a:hover { color: #fff; }
-.footer__bottom { text-align: center; padding: 20px 24px; }
-.footer__bottom p { font-size: .82rem; color: rgba(255,255,255,.25); }
-
-/* ── Scroll reveal defaults ──────────────────────────────── */
-.stat { opacity: 0; transform: translateY(16px); transition: var(--trans); }
-.stat.visible { opacity: 1; transform: none; }
-
-/* ── Responsive ──────────────────────────────────────────── */
-@media (max-width: 900px) {
-  .cards { grid-template-columns: 1fr 1fr; }
-  .feature__inner { grid-template-columns: 1fr; gap: 48px; }
-  .feature__card-stack { height: 260px; }
-  .about__pillars { grid-template-columns: 1fr; }
-  .contact__grid { grid-template-columns: 1fr; }
-  .stats__grid { grid-template-columns: repeat(2, 1fr); }
-  .footer__inner { grid-template-columns: 1fr 1fr; }
-  .footer__brand { grid-column: 1/-1; }
-  .form__row { grid-template-columns: 1fr; }
-}
-
-@media (max-width: 600px) {
-  .cards { grid-template-columns: 1fr; }
-  .nav__links { display: none; flex-direction: column; position: absolute; top: 64px; left: 0; right: 0; background: rgba(255,255,255,.96); backdrop-filter: blur(20px); padding: 16px 24px 24px; border-bottom: 1px solid rgba(0,0,0,.08); }
-  .nav__links--open { display: flex; }
-  .nav__burger { display: flex; margin-left: auto; }
-  .nav__inner .btn--outline { display: none; }
-  .hero__title { font-size: 2.8rem; }
-  .stats__grid { grid-template-columns: 1fr 1fr; }
-  .cta-banner__inner { flex-direction: column; text-align: center; }
-  .footer__inner { grid-template-columns: 1fr; }
-}
-  </style>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+/* ── Reset ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;color:#0a0a0a;background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+img{display:block;max-width:100%}
+
+:root{
+  --blue:#0071e3;--blue-dk:#0058b0;--dark:#0a0a0a;--mid:#1c1c1e;
+  --gray:#6e6e73;--light:#f5f5f7;--white:#fff;
+  --radius:16px;--trans:.35s cubic-bezier(.25,.46,.45,.94);
+}
+
+.container{max-width:1120px;margin:0 auto;padding:0 24px}
+
+/* ── Buttons ── */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:14px 30px;border-radius:980px;font-size:.95rem;font-weight:600;cursor:pointer;border:none;transition:var(--trans);white-space:nowrap;font-family:inherit}
+.btn--primary{background:var(--blue);color:#fff}
+.btn--primary:hover{background:var(--blue-dk);transform:translateY(-2px);box-shadow:0 10px 28px rgba(0,113,227,.4)}
+.btn--outline{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.5)}
+.btn--outline:hover{border-color:#fff;background:rgba(255,255,255,.1)}
+.btn--dark{background:var(--dark);color:#fff}
+.btn--dark:hover{background:#222;transform:translateY(-2px);box-shadow:0 10px 28px rgba(0,0,0,.3)}
+.btn--white{background:#fff;color:var(--blue);font-weight:700}
+.btn--white:hover{background:var(--light)}
+
+/* ── Nav ── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:saturate(180%) blur(20px);background:rgba(255,255,255,.8);border-bottom:1px solid rgba(0,0,0,.08);transition:box-shadow var(--trans)}
+.nav--scrolled{box-shadow:0 2px 20px rgba(0,0,0,.1)}
+.nav__inner{max-width:1120px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;gap:32px}
+.nav__logo img{height:36px;width:auto;object-fit:contain}
+.nav__links{display:flex;gap:28px;margin-left:auto}
+.nav__links a{font-size:.88rem;color:var(--dark);opacity:.75;transition:opacity var(--trans);font-weight:500}
+.nav__links a:hover{opacity:1}
+.nav__cta{margin-left:8px}
+.nav__burger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;margin-left:auto}
+.nav__burger span{display:block;width:22px;height:2px;background:var(--dark);border-radius:2px;transition:var(--trans)}
+
+/* ── Hero ── */
+.hero{position:relative;padding-top:64px;background:#0a0a0a;overflow:hidden;min-height:100svh;display:flex;flex-direction:column}
+.hero__text-block{position:relative;z-index:2;padding:80px 24px 60px;max-width:1120px;margin:0 auto;width:100%}
+.hero__eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:24px}
+.hero__eyebrow::before{content:'';display:block;width:24px;height:2px;background:var(--blue);border-radius:2px}
+.hero__title{font-size:clamp(3.2rem,8vw,6.5rem);font-weight:900;line-height:1.0;letter-spacing:-.04em;color:#fff;margin-bottom:28px}
+.hero__title span{color:var(--blue)}
+.hero__sub{font-size:1.15rem;color:rgba(255,255,255,.55);max-width:520px;margin-bottom:44px;line-height:1.75}
+.hero__actions{display:flex;gap:14px;flex-wrap:wrap}
+
+.hero__image-wrap{position:relative;z-index:2;flex:1;min-height:420px;overflow:hidden}
+.hero__image-wrap img{width:100%;height:100%;object-fit:cover;object-position:center 30%;opacity:.65;transition:opacity 1s}
+.hero__image-wrap::before{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,#0a0a0a 0%,transparent 30%);z-index:1;pointer-events:none}
+.hero__image-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(10,10,10,.7) 0%,transparent 60%);z-index:1;pointer-events:none}
+.hero__image-caption{position:absolute;bottom:20px;right:24px;z-index:2;font-size:.72rem;color:rgba(255,255,255,.3);letter-spacing:.06em}
+
+/* ── Stats ── */
+.stats{background:var(--dark);padding:0}
+.stats__grid{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(255,255,255,.06)}
+.stat{padding:40px 32px;border-right:1px solid rgba(255,255,255,.06);text-align:center;opacity:0;transform:translateY(16px);transition:var(--trans)}
+.stat:last-child{border-right:none}
+.stat.visible{opacity:1;transform:none}
+.stat__num{display:block;font-size:2.6rem;font-weight:800;color:#fff;letter-spacing:-.03em}
+.stat__label{display:block;font-size:.83rem;color:rgba(255,255,255,.4);margin-top:6px}
+
+/* ── Section commons ── */
+.section{padding:112px 0}
+.section--gray{background:var(--light)}
+.eyebrow{font-size:.75rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:14px;display:block}
+.section-title{font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-.03em;line-height:1.1;color:var(--dark);margin-bottom:18px}
+.section-sub{font-size:1.05rem;color:var(--gray);line-height:1.75;max-width:580px}
+.text-center{text-align:center}
+.text-center .section-sub{margin:0 auto}
+
+/* ── Products ── */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:rgba(0,0,0,.06);border:1px solid rgba(0,0,0,.06);border-radius:20px;overflow:hidden;margin-top:64px}
+.card{background:#fff;padding:40px 36px;transition:var(--trans);opacity:0;transform:translateY(20px)}
+.card.visible{opacity:1;transform:none}
+.card:hover{background:var(--light);z-index:1}
+.card__icon{width:56px;height:56px;background:rgba(0,113,227,.08);border-radius:16px;display:flex;align-items:center;justify-content:center;color:var(--blue);margin-bottom:24px}
+.card__icon svg{width:28px;height:28px}
+.card__title{font-size:1.1rem;font-weight:700;margin-bottom:10px;color:var(--dark)}
+.card__desc{font-size:.92rem;color:var(--gray);line-height:1.7;margin-bottom:20px}
+.card__link{font-size:.85rem;font-weight:700;color:var(--blue);display:inline-flex;align-items:center;gap:4px}
+
+/* ── Why Texodo – feature split ── */
+.feature{padding:112px 0}
+.feature__inner{display:grid;grid-template-columns:1fr 1fr;gap:96px;align-items:center}
+.feature__text{opacity:0;transform:translateX(-24px);transition:var(--trans)}
+.feature__text.visible{opacity:1;transform:none}
+.feature__list{display:flex;flex-direction:column;gap:20px;margin:32px 0 40px}
+.feature__list li{display:flex;align-items:flex-start;gap:14px;font-size:.95rem;color:var(--mid);line-height:1.6}
+.feat-icon{width:36px;height:36px;background:rgba(0,113,227,.08);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--blue);font-size:1rem}
+.feature__visual{opacity:0;transform:translateX(24px);transition:var(--trans)}
+.feature__visual.visible{opacity:1;transform:none}
+
+/* Photo grid visual */
+.photo-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:220px 220px;gap:12px}
+.photo-grid__item{border-radius:14px;overflow:hidden;background:var(--light)}
+.photo-grid__item img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.photo-grid__item:hover img{transform:scale(1.04)}
+.photo-grid__item--tall{grid-row:span 2}
+
+/* ── Services detail ── */
+.services-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:32px;margin-top:64px}
+.service-card{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:20px;padding:40px;transition:var(--trans);opacity:0;transform:translateY(20px)}
+.service-card.visible{opacity:1;transform:none}
+.service-card:hover{box-shadow:0 16px 48px rgba(0,0,0,.08);border-color:rgba(0,113,227,.2);transform:translateY(-3px)}
+.service-card__num{font-size:.75rem;font-weight:700;letter-spacing:.12em;color:var(--blue);opacity:.5;margin-bottom:20px}
+.service-card__title{font-size:1.25rem;font-weight:800;margin-bottom:14px;color:var(--dark)}
+.service-card__desc{font-size:.93rem;color:var(--gray);line-height:1.75}
+.service-card__tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.tag{font-size:.75rem;font-weight:600;padding:4px 12px;border-radius:999px;background:var(--light);color:var(--mid)}
+
+/* ── About ── */
+.about__inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.about__img{position:relative;border-radius:24px;overflow:hidden;height:500px}
+.about__img img{width:100%;height:100%;object-fit:cover}
+.about__img-badge{position:absolute;bottom:24px;left:24px;background:rgba(0,0,0,.75);backdrop-filter:blur(12px);border-radius:14px;padding:16px 20px;color:#fff}
+.about__img-badge strong{display:block;font-size:1.4rem;font-weight:800}
+.about__img-badge span{font-size:.82rem;color:rgba(255,255,255,.55)}
+.about__content{opacity:0;transform:translateX(24px);transition:var(--trans)}
+.about__content.visible{opacity:1;transform:none}
+.about__values{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:36px}
+.value{padding:24px;background:var(--light);border-radius:14px}
+.value__icon{font-size:1.5rem;margin-bottom:10px}
+.value h4{font-size:.95rem;font-weight:700;margin-bottom:6px}
+.value p{font-size:.85rem;color:var(--gray);line-height:1.6}
+
+/* ── CTA ── */
+.cta{background:var(--dark);padding:96px 0;position:relative;overflow:hidden}
+.cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 80% 50%,rgba(0,113,227,.18) 0%,transparent 70%);pointer-events:none}
+.cta__inner{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.cta__title{font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-.03em;line-height:1.1;color:#fff;margin-bottom:16px}
+.cta__sub{color:rgba(255,255,255,.5);font-size:1rem;line-height:1.7}
+.cta__actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:36px}
+.cta__checklist{display:flex;flex-direction:column;gap:14px}
+.cta__checklist li{display:flex;align-items:center;gap:12px;font-size:.92rem;color:rgba(255,255,255,.65)}
+.cta__checklist li::before{content:'✓';width:24px;height:24px;background:rgba(0,113,227,.25);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--blue);font-size:.8rem;font-weight:700;flex-shrink:0;line-height:24px;text-align:center}
+
+/* ── Contact ── */
+.contact__grid{display:grid;grid-template-columns:1fr 1.5fr;gap:64px;align-items:start}
+.contact__left{opacity:0;transform:translateX(-24px);transition:var(--trans)}
+.contact__left.visible{opacity:1;transform:none}
+.contact__right{opacity:0;transform:translateX(24px);transition:var(--trans)}
+.contact__right.visible{opacity:1;transform:none}
+
+.contact-info-card{background:var(--dark);border-radius:20px;padding:40px;margin-top:40px}
+.contact-info-card h3{font-size:1rem;font-weight:700;color:#fff;margin-bottom:24px}
+.contact-item{display:flex;gap:14px;align-items:flex-start;margin-bottom:24px}
+.contact-item:last-child{margin-bottom:0}
+.contact-item__icon{width:40px;height:40px;background:rgba(255,255,255,.08);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.contact-item__label{font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.35);margin-bottom:3px}
+.contact-item__val{font-size:.95rem;font-weight:500;color:#fff}
+.contact-item__val a{color:#fff}
+.contact-item__val a:hover{color:var(--blue)}
+
+.contact-form{background:var(--light);border-radius:20px;padding:48px;border:1px solid rgba(0,0,0,.06)}
+.contact-form h3{font-size:1.4rem;font-weight:800;margin-bottom:8px}
+.contact-form p{font-size:.92rem;color:var(--gray);margin-bottom:32px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-group{display:flex;flex-direction:column;gap:6px;margin-bottom:18px}
+.form-group label{font-size:.82rem;font-weight:600;color:var(--mid)}
+.form-group input,.form-group textarea,.form-group select{background:#fff;border:1.5px solid rgba(0,0,0,.1);border-radius:10px;padding:13px 16px;font-family:inherit;font-size:.93rem;color:var(--dark);transition:border-color var(--trans),box-shadow var(--trans);outline:none;resize:vertical;appearance:none}
+.form-group input::placeholder,.form-group textarea::placeholder{color:#b0b0b0}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,113,227,.12)}
+.form-submit{width:100%;margin-top:8px;justify-content:center;font-size:1rem;padding:16px}
+
+/* ── Footer ── */
+.footer{background:#050505;padding:72px 0 0}
+.footer__inner{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;padding-bottom:56px;border-bottom:1px solid rgba(255,255,255,.06)}
+.footer__logo{height:34px;width:auto;object-fit:contain;margin-bottom:16px;filter:brightness(0) invert(1)}
+.footer__brand p{font-size:.88rem;color:rgba(255,255,255,.35);line-height:1.75;max-width:260px;margin-top:12px}
+.footer__col-title{font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:18px}
+.footer__col{display:flex;flex-direction:column;gap:10px}
+.footer__col a{font-size:.88rem;color:rgba(255,255,255,.45);transition:color var(--trans)}
+.footer__col a:hover{color:#fff}
+.footer__bottom{display:flex;align-items:center;justify-content:space-between;padding:20px 0;flex-wrap:wrap;gap:12px}
+.footer__bottom p{font-size:.8rem;color:rgba(255,255,255,.2)}
+
+/* ── Scroll reveal ── */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .5s ease,transform .5s ease}
+.reveal.visible{opacity:1;transform:none}
+
+/* ── Responsive ── */
+@media(max-width:960px){
+  .cards{grid-template-columns:1fr 1fr}
+  .feature__inner{grid-template-columns:1fr;gap:56px}
+  .photo-grid{grid-template-rows:180px 180px}
+  .services-grid{grid-template-columns:1fr}
+  .about__inner{grid-template-columns:1fr;gap:48px}
+  .about__img{height:360px}
+  .cta__inner{grid-template-columns:1fr;gap:40px}
+  .contact__grid{grid-template-columns:1fr;gap:40px}
+  .stats__grid{grid-template-columns:repeat(2,1fr)}
+  .footer__inner{grid-template-columns:1fr 1fr}
+  .footer__brand{grid-column:1/-1}
+}
+@media(max-width:600px){
+  .cards{grid-template-columns:1fr;gap:1px}
+  .nav__links{display:none;flex-direction:column;position:absolute;top:64px;left:0;right:0;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);padding:16px 24px 24px;border-bottom:1px solid rgba(0,0,0,.08)}
+  .nav__links--open{display:flex}
+  .nav__burger{display:flex}
+  .nav__cta{display:none}
+  .hero__title{font-size:3rem}
+  .photo-grid{grid-template-columns:1fr;grid-template-rows:200px 200px 200px}
+  .photo-grid__item--tall{grid-row:span 1}
+  .about__values{grid-template-columns:1fr}
+  .form-row{grid-template-columns:1fr}
+  .stats__grid{grid-template-columns:1fr 1fr}
+  .footer__inner{grid-template-columns:1fr}
+  .footer__bottom{flex-direction:column;text-align:center}
+}
+  </style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav class="nav">
-    <div class="nav__inner">
-      <a href="#" class="nav__logo">
-        <img src="https://www.texodo.cz/wp-content/uploads/2024/05/cropped-logo_texodo.jpg" alt="Texodo logo" />
-      </a>
-      <ul class="nav__links">
-        <li><a href="#produkty">Produkty</a></li>
-        <li><a href="#sluzby">Služby</a></li>
-        <li><a href="#o-nas">O nás</a></li>
-        <li><a href="#kontakt">Kontakt</a></li>
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="#" class="nav__logo">
+      <img src="https://www.texodo.cz/wp-content/uploads/2024/05/cropped-logo_texodo.jpg" alt="Texodo" />
+    </a>
+    <ul class="nav__links">
+      <li><a href="#produkty">Produkty</a></li>
+      <li><a href="#sluzby">Služby</a></li>
+      <li><a href="#o-nas">O nás</a></li>
+      <li><a href="#kontakt">Kontakt</a></li>
+    </ul>
+    <a href="#kontakt" class="btn btn--primary nav__cta">Poptávka zdarma</a>
+    <button class="nav__burger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="uvod">
+  <div class="hero__text-block">
+    <span class="hero__eyebrow">Váš partner pro bezpečnost</span>
+    <h1 class="hero__title">Vybavení,<br /><span>které chrání.</span></h1>
+    <p class="hero__sub">Kompletní sortiment pracovních oděvů, OOPP a firemního textilu na míru. Dodáváme spolehlivě od roku 1999.</p>
+    <div class="hero__actions">
+      <a href="#produkty" class="btn btn--primary">Prohlédnout produkty</a>
+      <a href="#kontakt" class="btn btn--outline">Nezávazná poptávka →</a>
+    </div>
+  </div>
+  <div class="hero__image-wrap">
+    <img
+      src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1400&q=80"
+      alt="Profesionální pracovní vybavení"
+      loading="eager"
+    />
+    <span class="hero__image-caption">Photo: Unsplash</span>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats">
+  <div class="stats__grid container">
+    <div class="stat">
+      <span class="stat__num">25+</span>
+      <span class="stat__label">let zkušeností</span>
+    </div>
+    <div class="stat">
+      <span class="stat__num">500+</span>
+      <span class="stat__label">spokojených firem</span>
+    </div>
+    <div class="stat">
+      <span class="stat__num">10 000+</span>
+      <span class="stat__label">produktů v katalogu</span>
+    </div>
+    <div class="stat">
+      <span class="stat__num">100%</span>
+      <span class="stat__label">záruční servis</span>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUKTY -->
+<section class="section" id="produkty">
+  <div class="container">
+    <div class="text-center">
+      <span class="eyebrow">Sortiment</span>
+      <h2 class="section-title">Vše pro bezpečnost vašeho týmu</h2>
+      <p class="section-sub">Od ochranných pomůcek po firemní uniformy – dodáváme kompletní vybavení přizpůsobené vašemu oboru a požadavkům BOZP.</p>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card__icon">
+          <svg viewBox="0 0 48 48" fill="none"><path d="M24 4C15.16 4 8 11.16 8 20c0 5.96 3.24 11.16 8 14.02V44h16v-9.98C37.76 31.16 41 25.96 41 20c0-8.84-7.16-16-17-16z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M18 44h12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="card__title">Pracovní oděvy</h3>
+        <p class="card__desc">Profesionální pracovní oblečení a uniformy pro všechna pracovní prostředí. Trvanlivé materiály, ergonomický střih a možnost firemního potisku.</p>
+        <a href="#kontakt" class="card__link">Poptat →</a>
+      </div>
+      <div class="card">
+        <div class="card__icon">
+          <svg viewBox="0 0 48 48" fill="none"><ellipse cx="24" cy="20" rx="14" ry="8" stroke="currentColor" stroke-width="2.5"/><path d="M10 20c0 6 5.82 10 14 10s14-4 14-10" stroke="currentColor" stroke-width="2.5"/><path d="M16 38l-2 4M32 38l2 4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="card__title">OOPP &amp; Ochrana</h3>
+        <p class="card__desc">Ochranné brýle, sluchátka, přilby a rukavice splňující přísné bezpečnostní normy EU. Certifikované produkty pro každé pracovní prostředí.</p>
+        <a href="#kontakt" class="card__link">Poptat →</a>
+      </div>
+      <div class="card">
+        <div class="card__icon">
+          <svg viewBox="0 0 48 48" fill="none"><path d="M10 36c0-8 6-14 14-14s14 6 14 14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><path d="M14 36v-2c0-5.52 4.48-10 10-10s10 4.48 10 10v2" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><rect x="8" y="34" width="32" height="6" rx="2" stroke="currentColor" stroke-width="2.5"/></svg>
+        </div>
+        <h3 class="card__title">Obuv JOMA</h3>
+        <p class="card__desc">Pracovní, outdoorové i sportovní boty od značky JOMA. Komfort a ochrana pro každý terén – ideální pro náročné podmínky i každodenní nošení.</p>
+        <a href="#kontakt" class="card__link">Poptat →</a>
+      </div>
+      <div class="card">
+        <div class="card__icon">
+          <svg viewBox="0 0 48 48" fill="none"><path d="M24 6L6 16v16l18 10 18-10V16L24 6z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M6 16l18 10M24 26v16M42 16L24 26" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="card__title">Firemní textil</h3>
+        <p class="card__desc">Výroba firemního textilu s vaším logem – výšivka nebo termotisk přímo v naší dílně. Trička, mikiny, vesty i bundy s vaší značkou.</p>
+        <a href="#kontakt" class="card__link">Poptovat →</a>
+      </div>
+      <div class="card">
+        <div class="card__icon">
+          <svg viewBox="0 0 48 48" fill="none"><path d="M8 16h32M8 24h24M8 32h16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><rect x="4" y="8" width="40" height="32" rx="3" stroke="currentColor" stroke-width="2.5"/></svg>
+        </div>
+        <h3 class="card__title">Lovecký sortiment</h3>
+        <p class="card__desc">Specializované oblečení a vybavení pro lov a outdoor. Funkční materiály odolné vůči povětrnostním podmínkám, maskování a ochrana v přírodě.</p>
+        <a href="#kontakt" class="card__link">Poptat →</a>
+      </div>
+      <div class="card">
+        <div class="card__icon">
+          <svg viewBox="0 0 48 48" fill="none"><path d="M24 4v4M24 40v4M4 24h4M40 24h4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><circle cx="24" cy="24" r="12" stroke="currentColor" stroke-width="2.5"/><circle cx="24" cy="24" r="4" stroke="currentColor" stroke-width="2.5"/></svg>
+        </div>
+        <h3 class="card__title">Záruční servis</h3>
+        <p class="card__desc">Komplexní záruční i pozáruční servis. Rychlé vyřízení reklamací, náhradní vybavení bez prodlení a osobní přístup ke každému zákazníkovi.</p>
+        <a href="#kontakt" class="card__link">Zjistit více →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLUZBY -->
+<section class="section section--gray" id="sluzby">
+  <div class="container">
+    <div class="text-center">
+      <span class="eyebrow">Naše služby</span>
+      <h2 class="section-title">Co pro vás děláme</h2>
+      <p class="section-sub">Nejsme jen prodejce — jsme partner, který vám pomůže od výběru až po servis. Nabízíme komplexní řešení pro vaši firmu.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-card__num">01</div>
+        <h3 class="service-card__title">Firemní uniformy na míru</h3>
+        <p class="service-card__desc">Navrhneme a vyrobíme kompletní firemní oděvy přesně podle vašich potřeb. Zahrnuje poradenství ohledně materiálů, střihů, barev i umístění loga. Výroba probíhá v naší vlastní dílně s důrazem na kvalitu a dodací termíny.</p>
+        <div class="service-card__tags">
+          <span class="tag">Výšivka</span>
+          <span class="tag">Termotisk</span>
+          <span class="tag">Plnobarevný potisk</span>
+          <span class="tag">Poradenství zdarma</span>
+        </div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-card__num">02</div>
+        <h3 class="service-card__title">Komplexní vybavení BOZP</h3>
+        <p class="service-card__desc">Zásobíme firmy veškerými ochrannými pracovními pomůckami, které splňují aktuální legislativní požadavky. Pomůžeme vám sestavit kompletní sadu OOPP pro vaše zaměstnance v souladu s normami EU a českými předpisy.</p>
+        <div class="service-card__tags">
+          <span class="tag">Ochrana hlavy</span>
+          <span class="tag">Ochrana zraku</span>
+          <span class="tag">Ochrana sluchu</span>
+          <span class="tag">Certifikát EU</span>
+        </div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-card__num">03</div>
+        <h3 class="service-card__title">Velkoobchodní dodávky</h3>
+        <p class="service-card__desc">Dodáváme pracovní oděvy a vybavení ve velkých objemech pro průmyslové podniky, stavební firmy, logistické společnosti i veřejný sektor. Smluvní podmínky, pravidelné dodávky a věrnostní slevy pro stálé zákazníky.</p>
+        <div class="service-card__tags">
+          <span class="tag">Množstevní slevy</span>
+          <span class="tag">Pravidelné dodávky</span>
+          <span class="tag">Smluvní ceny</span>
+        </div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-card__num">04</div>
+        <h3 class="service-card__title">Záruční &amp; pozáruční servis</h3>
+        <p class="service-card__desc">Za naše produkty stojíme i po nákupu. Zajišťujeme rychlé vyřízení reklamací, opravu nebo náhradu vybavení. Naším cílem je, aby vaši zaměstnanci byli vždy správně vybaveni – bez zbytečných prostojů.</p>
+        <div class="service-card__tags">
+          <span class="tag">Rychlá reklamace</span>
+          <span class="tag">Náhradní vybavení</span>
+          <span class="tag">Osobní přístup</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY TEXODO -->
+<section class="feature" id="proc-texodo">
+  <div class="container feature__inner">
+    <div class="feature__text">
+      <span class="eyebrow">Proč Texodo</span>
+      <h2 class="section-title">Partnerství,<br />ne jen prodej</h2>
+      <p style="font-size:1.05rem;color:var(--gray);line-height:1.75">Jsme česká rodinná firma s více než 25letou tradicí. Každého zákazníka vnímáme jako dlouhodobého partnera – radíme, navrhujeme a staráme se o servis. Víme, že správné vybavení není luxus, ale nutnost.</p>
+      <ul class="feature__list">
+        <li>
+          <div class="feat-icon">🏭</div>
+          <div><strong>Vlastní výroba</strong><br /><span style="color:var(--gray);font-size:.9rem">Pracovní oděvy a textil vyrábíme a potiskujeme přímo u nás.</span></div>
+        </li>
+        <li>
+          <div class="feat-icon">🛡️</div>
+          <div><strong>Certifikované produkty</strong><br /><span style="color:var(--gray);font-size:.9rem">Veškeré OOPP splňují platné normy EU a předpisy BOZP.</span></div>
+        </li>
+        <li>
+          <div class="feat-icon">🚚</div>
+          <div><strong>Rychlé dodání</strong><br /><span style="color:var(--gray);font-size:.9rem">Doručení po celé ČR, možnost osobního odběru v prodejně.</span></div>
+        </li>
+        <li>
+          <div class="feat-icon">🤝</div>
+          <div><strong>Poradenství zdarma</strong><br /><span style="color:var(--gray);font-size:.9rem">Pomůžeme vybrat správné produkty a navrhneme firemní řešení.</span></div>
+        </li>
       </ul>
-      <a href="#kontakt" class="btn btn--outline">Kontaktujte nás</a>
-      <button class="nav__burger" aria-label="Menu">
-        <span></span><span></span><span></span>
-      </button>
+      <a href="#kontakt" class="btn btn--dark">Domluvit konzultaci</a>
     </div>
-  </nav>
+    <div class="feature__visual">
+      <div class="photo-grid">
+        <div class="photo-grid__item photo-grid__item--tall">
+          <img src="https://images.unsplash.com/photo-1581092160607-ee22731c9c18?auto=format&fit=crop&w=600&q=80" alt="Pracovní oděvy" loading="lazy" />
+        </div>
+        <div class="photo-grid__item">
+          <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=600&q=80" alt="Bezpečnostní vybavení" loading="lazy" />
+        </div>
+        <div class="photo-grid__item">
+          <img src="https://images.unsplash.com/photo-1571786256017-aee7a0c009b6?auto=format&fit=crop&w=600&q=80" alt="Firemní textil" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero__bg"></div>
-    <div class="container hero__content">
-      <p class="hero__eyebrow">Váš partner pro bezpečnost na pracovišti</p>
-      <h1 class="hero__title">Vybavení,<br />které chrání.</h1>
-      <p class="hero__sub">Kompletní sortiment pracovních oděvů, ochranných pomůcek a firemního textilu na míru. Kvalita, na kterou se můžete spolehnout každý den.</p>
-      <div class="hero__actions">
-        <a href="#produkty" class="btn btn--primary">Prohlédnout produkty</a>
-        <a href="#kontakt" class="btn btn--ghost">Nezávazná poptávka →</a>
+<!-- O NAS -->
+<section class="section section--gray" id="o-nas">
+  <div class="container about__inner">
+    <div class="about__img reveal">
+      <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80" alt="Texodo tým" loading="lazy" />
+      <div class="about__img-badge">
+        <strong>1999</strong>
+        <span>rok založení</span>
       </div>
     </div>
-    <div class="hero__scroll-hint">
-      <span></span>
+    <div class="about__content">
+      <span class="eyebrow">O společnosti</span>
+      <h2 class="section-title">Texodo spol. s r.o.</h2>
+      <p style="font-size:1.05rem;color:var(--gray);line-height:1.75;margin-bottom:20px">Texodo je český dodavatel kompletního bezpečnostního vybavení, sportovního a outdoorového sortimentu a pracovních oděvů. Od roku 1999 pomáháme firmám po celé České republice zajistit bezpečnost a komfort jejich zaměstnanců.</p>
+      <p style="font-size:1.05rem;color:var(--gray);line-height:1.75;margin-bottom:32px">Specializujeme se na výrobu pracovního oblečení a propagačního textilu s vlastním designem – od výšivky a termotisku až po plnobarevný potisk. Součástí naší nabídky je i kompletní záruční servis a náhradní vybavení.</p>
+      <div class="about__values">
+        <div class="value">
+          <div class="value__icon">🎯</div>
+          <h4>Kvalita na prvním místě</h4>
+          <p>Vybíráme pouze prověřené materiály a výrobce s certifikací EU.</p>
+        </div>
+        <div class="value">
+          <div class="value__icon">💬</div>
+          <h4>Přímá komunikace</h4>
+          <p>Žádná call centra – vždy mluvíte přímo s naším odborníkem.</p>
+        </div>
+        <div class="value">
+          <div class="value__icon">🔄</div>
+          <h4>Flexibilita</h4>
+          <p>Přizpůsobíme se vašim potřebám, termínům i rozpočtu.</p>
+        </div>
+        <div class="value">
+          <div class="value__icon">📍</div>
+          <h4>Česká firma</h4>
+          <p>Místní dodavatel, osobní odběr, rychlé dodání po celé ČR.</p>
+        </div>
+      </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- STATS -->
-  <section class="stats">
-    <div class="container stats__grid">
-      <div class="stat">
-        <span class="stat__num">25+</span>
-        <span class="stat__label">let na trhu</span>
-      </div>
-      <div class="stat">
-        <span class="stat__num">500+</span>
-        <span class="stat__label">spokojených firem</span>
-      </div>
-      <div class="stat">
-        <span class="stat__num">10 000+</span>
-        <span class="stat__label">produktů v katalogu</span>
-      </div>
-      <div class="stat">
-        <span class="stat__num">100%</span>
-        <span class="stat__label">záruční servis</span>
+<!-- CTA BANNER -->
+<section class="cta">
+  <div class="container cta__inner">
+    <div>
+      <h2 class="cta__title">Připraveni vybavit<br />váš tým?</h2>
+      <p class="cta__sub">Sestavíme nabídku přesně na míru — bezplatná konzultace, bez závazků. Ozvěte se nám ještě dnes.</p>
+      <div class="cta__actions">
+        <a href="#kontakt" class="btn btn--primary">Nezávazná poptávka</a>
+        <a href="tel:+420383321463" class="btn btn--outline">📞 +420 383 321 463</a>
       </div>
     </div>
-  </section>
+    <ul class="cta__checklist">
+      <li>Poradenství při výběru vybavení zdarma</li>
+      <li>Návrh firemního designu a potisku</li>
+      <li>Produkty splňující normy BOZP a EU</li>
+      <li>Dodávky po celé České republice</li>
+      <li>Záruční servis a reklamace bez problémů</li>
+    </ul>
+  </div>
+</section>
 
-  <!-- PRODUKTY -->
-  <section class="section" id="produkty">
-    <div class="container">
-      <div class="section__header">
-        <p class="section__eyebrow">Sortiment</p>
-        <h2 class="section__title">Vše pro váš tým<br />na jednom místě</h2>
-        <p class="section__sub">Od ochranných pomůcek po firemní uniformy – dodáváme kompletní vybavení přizpůsobené vašemu oboru.</p>
-      </div>
-      <div class="cards">
-        <div class="card">
-          <div class="card__icon">
-            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M24 4C15.16 4 8 11.16 8 20c0 5.96 3.24 11.16 8 14.02V44h16v-9.98C37.76 31.16 41 25.96 41 20c0-8.84-7.16-16-17-16z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
-              <path d="M18 44h12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <h3 class="card__title">Pracovní oděvy</h3>
-          <p class="card__desc">Profesionální pracovní oblečení a uniformy pro všechna pracovní prostředí. Trvanlivé materiály, ergonomický střih.</p>
-          <a href="#kontakt" class="card__link">Zjistit více →</a>
-        </div>
-        <div class="card">
-          <div class="card__icon">
-            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <ellipse cx="24" cy="20" rx="14" ry="8" stroke="currentColor" stroke-width="2.5"/>
-              <path d="M10 20c0 6 5.82 10 14 10s14-4 14-10" stroke="currentColor" stroke-width="2.5"/>
-              <path d="M16 38l-2 4M32 38l2 4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <h3 class="card__title">OOPP &amp; ochrana</h3>
-          <p class="card__desc">Ochranné brýle, sluchátka, přilby a rukavice splňující přísné bezpečnostní normy EU.</p>
-          <a href="#kontakt" class="card__link">Zjistit více →</a>
-        </div>
-        <div class="card">
-          <div class="card__icon">
-            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8 36l8-12 8 6 8-10 8 16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <rect x="4" y="8" width="40" height="32" rx="3" stroke="currentColor" stroke-width="2.5"/>
-            </svg>
-          </div>
-          <h3 class="card__title">Obuv JOMA</h3>
-          <p class="card__desc">Pracovní, outdoorové i sportovní boty značky JOMA. Komfort a ochrana pro každý terén a podmínky.</p>
-          <a href="#kontakt" class="card__link">Zjistit více →</a>
-        </div>
-        <div class="card">
-          <div class="card__icon">
-            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M24 6L6 16v16l18 10 18-10V16L24 6z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
-              <path d="M6 16l18 10M24 26v16M42 16L24 26" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <h3 class="card__title">Firemní textil</h3>
-          <p class="card__desc">Výroba firemního textilu s vaším logem – výšivka, termotisk. Reprezentujte svou značku profesionálně.</p>
-          <a href="#kontakt" class="card__link">Zjistit více →</a>
-        </div>
-        <div class="card">
-          <div class="card__icon">
-            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 20h24M12 28h16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-              <path d="M8 10h32a2 2 0 012 2v24a2 2 0 01-2 2H8a2 2 0 01-2-2V12a2 2 0 012-2z" stroke="currentColor" stroke-width="2.5"/>
-            </svg>
-          </div>
-          <h3 class="card__title">Lovecký sortiment</h3>
-          <p class="card__desc">Specializované oblečení a vybavení pro lov. Funkční materiály odolné vůči povětrnostním podmínkám.</p>
-          <a href="#kontakt" class="card__link">Zjistit více →</a>
-        </div>
-        <div class="card">
-          <div class="card__icon">
-            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M24 4v4M24 40v4M4 24h4M40 24h4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-              <circle cx="24" cy="24" r="12" stroke="currentColor" stroke-width="2.5"/>
-              <circle cx="24" cy="24" r="4" stroke="currentColor" stroke-width="2.5"/>
-            </svg>
-          </div>
-          <h3 class="card__title">Záruční servis</h3>
-          <p class="card__desc">Komplexní záruční i pozáruční servis. Rychlé vyřízení reklamací a náhradní vybavení bez prodlení.</p>
-          <a href="#kontakt" class="card__link">Zjistit více →</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SLUZBY / FEATURE SPLIT -->
-  <section class="feature" id="sluzby">
-    <div class="container feature__inner">
-      <div class="feature__text">
-        <p class="section__eyebrow">Proč Texodo</p>
-        <h2 class="section__title">Na míru každé firmě</h2>
-        <p class="feature__desc">Nejen dodáváme produkty – stáváme se vaším dlouhodobým partnerem. Poradíme vám s výběrem, navrhneme potisk nebo výšivku a postaráme se o kompletní záruční servis.</p>
-        <ul class="feature__list">
-          <li>
-            <svg class="check" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M6 10l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Vlastní design a branding na pracovní oděvy
-          </li>
-          <li>
-            <svg class="check" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M6 10l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Výšivka &amp; termotisk přímo v naší dílně
-          </li>
-          <li>
-            <svg class="check" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M6 10l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Produkty splňující normy BOZP a EU
-          </li>
-          <li>
-            <svg class="check" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M6 10l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Osobní odběr i doručení po celé ČR
-          </li>
-          <li>
-            <svg class="check" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M6 10l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Věrnostní program pro firemní zákazníky
-          </li>
-        </ul>
-        <a href="#kontakt" class="btn btn--primary" style="margin-top:2rem;">Poptejte nabídku</a>
-      </div>
-      <div class="feature__visual">
-        <div class="feature__card-stack">
-          <div class="fcard fcard--back"></div>
-          <div class="fcard fcard--mid"></div>
-          <div class="fcard fcard--front">
-            <div class="fcard__badge">Firemní řešení</div>
-            <p class="fcard__label">Vaše logo na každém kousku</p>
-            <div class="fcard__dots">
-              <span style="background:#3b82f6"></span>
-              <span style="background:#f59e0b"></span>
-              <span style="background:#10b981"></span>
-            </div>
-            <p class="fcard__sub">Výšivka · Termotisk · Plnobarevný potisk</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- O NAS -->
-  <section class="section about" id="o-nas">
-    <div class="container about__inner">
-      <div class="section__header">
-        <p class="section__eyebrow">O společnosti</p>
-        <h2 class="section__title">Texodo spol. s r.o.</h2>
-        <p class="section__sub">Jsme česká rodinná firma s více než 25letou tradicí v dodávkách bezpečnostního vybavení a pracovních oděvů. Naším cílem je zajistit bezpečnost a pohodlí vašich zaměstnanců – od prvního kontaktu až po záruční servis.</p>
-      </div>
-      <div class="about__pillars">
-        <div class="pillar">
-          <div class="pillar__icon">🏭</div>
-          <h4>Vlastní výroba</h4>
-          <p>Pracovní oděvy a firemní textil šijeme a potiskujeme přímo v naší dílně.</p>
-        </div>
-        <div class="pillar">
-          <div class="pillar__icon">🛡️</div>
-          <h4>Certifikované produkty</h4>
-          <p>Veškeré OOPP splňují platné normy EU a požadavky bezpečnosti práce.</p>
-        </div>
-        <div class="pillar">
-          <div class="pillar__icon">🤝</div>
-          <h4>Partnerský přístup</h4>
-          <p>Ke každému zákazníkovi přistupujeme individuálně a nabízíme poradenství zdarma.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA BANNER -->
-  <section class="cta-banner">
-    <div class="container cta-banner__inner">
-      <div>
-        <h2 class="cta-banner__title">Připraveni vybavit váš tým?</h2>
-        <p class="cta-banner__sub">Kontaktujte nás – sestavíme nabídku přesně na míru vašim potřebám.</p>
-      </div>
-      <a href="#kontakt" class="btn btn--white">Nezávazná poptávka</a>
-    </div>
-  </section>
-
-  <!-- KONTAKT -->
-  <section class="section" id="kontakt">
-    <div class="container">
-      <div class="section__header">
-        <p class="section__eyebrow">Kontakt</p>
-        <h2 class="section__title">Ozvěte se nám</h2>
-        <p class="section__sub">Jsme tu pro vás v pracovní dny. Rádi zodpovíme vaše dotazy a připravíme nabídku.</p>
-      </div>
-      <div class="contact__grid">
-        <div class="contact__info">
-          <div class="contact__item">
-            <div class="contact__icon">📞</div>
+<!-- KONTAKT -->
+<section class="section" id="kontakt">
+  <div class="container">
+    <div class="contact__grid">
+      <div class="contact__left">
+        <span class="eyebrow">Kontakt</span>
+        <h2 class="section-title">Ozvěte se nám</h2>
+        <p class="section-sub">Jsme tu pro vás v pracovní dny. Rádi zodpovíme dotazy, připravíme cenovou nabídku nebo domluvíme osobní schůzku.</p>
+        <div class="contact-info-card">
+          <h3>Kontaktní údaje</h3>
+          <div class="contact-item">
+            <div class="contact-item__icon">📞</div>
             <div>
-              <p class="contact__label">Telefon</p>
-              <a href="tel:+420383321463" class="contact__val">+420 383 321 463</a><br/>
-              <a href="tel:+420602469958" class="contact__val">+420 602 469 958</a>
+              <div class="contact-item__label">Telefon</div>
+              <div class="contact-item__val">
+                <a href="tel:+420383321463">+420 383 321 463</a><br />
+                <a href="tel:+420602469958">+420 602 469 958</a>
+              </div>
             </div>
           </div>
-          <div class="contact__item">
-            <div class="contact__icon">✉️</div>
+          <div class="contact-item">
+            <div class="contact-item__icon">✉️</div>
             <div>
-              <p class="contact__label">E-mail</p>
-              <a href="mailto:texodo@texodo.cz" class="contact__val">texodo@texodo.cz</a>
+              <div class="contact-item__label">E-mail</div>
+              <div class="contact-item__val"><a href="mailto:texodo@texodo.cz">texodo@texodo.cz</a></div>
             </div>
           </div>
-          <div class="contact__item">
-            <div class="contact__icon">🌐</div>
+          <div class="contact-item">
+            <div class="contact-item__icon">🌐</div>
             <div>
-              <p class="contact__label">Web</p>
-              <a href="https://www.texodo.cz" class="contact__val" target="_blank" rel="noopener">www.texodo.cz</a>
+              <div class="contact-item__label">Web</div>
+              <div class="contact-item__val"><a href="https://www.texodo.cz" target="_blank" rel="noopener">www.texodo.cz</a></div>
             </div>
           </div>
         </div>
-        <form class="contact__form" onsubmit="return false;">
-          <div class="form__row">
-            <div class="form__group">
-              <label for="name">Jméno a příjmení</label>
-              <input type="text" id="name" placeholder="Jan Novák" />
+      </div>
+      <div class="contact__right">
+        <div class="contact-form">
+          <h3>Poptávkový formulář</h3>
+          <p>Vyplňte formulář a ozveme se vám do jednoho pracovního dne.</p>
+          <form onsubmit="handleSubmit(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Jméno a příjmení *</label>
+                <input type="text" id="name" placeholder="Jan Novák" required />
+              </div>
+              <div class="form-group">
+                <label for="company">Firma</label>
+                <input type="text" id="company" placeholder="Název firmy s.r.o." />
+              </div>
             </div>
-            <div class="form__group">
-              <label for="company">Firma</label>
-              <input type="text" id="company" placeholder="Název firmy" />
+            <div class="form-row">
+              <div class="form-group">
+                <label for="email">E-mail *</label>
+                <input type="email" id="email" placeholder="jan@firma.cz" required />
+              </div>
+              <div class="form-group">
+                <label for="phone">Telefon</label>
+                <input type="tel" id="phone" placeholder="+420 600 000 000" />
+              </div>
             </div>
-          </div>
-          <div class="form__group">
-            <label for="email">E-mail</label>
-            <input type="email" id="email" placeholder="jan@firma.cz" />
-          </div>
-          <div class="form__group">
-            <label for="message">Zpráva</label>
-            <textarea id="message" rows="4" placeholder="Popište, co hledáte…"></textarea>
-          </div>
-          <button type="submit" class="btn btn--primary" style="width:100%;">Odeslat poptávku</button>
-        </form>
+            <div class="form-group">
+              <label for="interest">Mám zájem o</label>
+              <select id="interest">
+                <option value="">— Vyberte kategorii —</option>
+                <option>Pracovní oděvy a uniformy</option>
+                <option>OOPP a ochranné pomůcky</option>
+                <option>Firemní textil s potiskem</option>
+                <option>Obuv JOMA</option>
+                <option>Lovecký sortiment</option>
+                <option>Záruční servis</option>
+                <option>Jiné</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="message">Zpráva *</label>
+              <textarea id="message" rows="4" placeholder="Popište, co hledáte – počet kusů, typ produktu, termín dodání…" required></textarea>
+            </div>
+            <button type="submit" class="btn btn--primary form-submit">Odeslat poptávku</button>
+          </form>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="container footer__inner">
-      <div class="footer__brand">
-        <img src="https://www.texodo.cz/wp-content/uploads/2024/05/cropped-logo_texodo.jpg" alt="Texodo" class="footer__logo" />
-        <p>Kompletní bezpečnostní vybavení a pracovní oděvy od českého dodavatele s tradicí.</p>
-      </div>
-      <div class="footer__nav">
-        <p class="footer__heading">Produkty</p>
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__brand">
+      <img src="https://www.texodo.cz/wp-content/uploads/2024/05/cropped-logo_texodo.jpg" alt="Texodo" class="footer__logo" />
+      <p>Váš český dodavatel pracovních oděvů, bezpečnostního vybavení a firemního textilu od roku 1999.</p>
+    </div>
+    <div>
+      <p class="footer__col-title">Produkty</p>
+      <div class="footer__col">
         <a href="#produkty">Pracovní oděvy</a>
         <a href="#produkty">OOPP &amp; ochrana</a>
         <a href="#produkty">Obuv JOMA</a>
         <a href="#produkty">Firemní textil</a>
+        <a href="#produkty">Lovecký sortiment</a>
       </div>
-      <div class="footer__nav">
-        <p class="footer__heading">Firma</p>
+    </div>
+    <div>
+      <p class="footer__col-title">Firma</p>
+      <div class="footer__col">
+        <a href="#sluzby">Naše služby</a>
         <a href="#o-nas">O nás</a>
-        <a href="#sluzby">Služby</a>
+        <a href="#proc-texodo">Proč Texodo</a>
         <a href="#kontakt">Kontakt</a>
       </div>
     </div>
-    <div class="footer__bottom">
-      <p>© 2025 Texodo spol. s r.o. · Všechna práva vyhrazena</p>
+    <div>
+      <p class="footer__col-title">Kontakt</p>
+      <div class="footer__col">
+        <a href="tel:+420383321463">+420 383 321 463</a>
+        <a href="tel:+420602469958">+420 602 469 958</a>
+        <a href="mailto:texodo@texodo.cz">texodo@texodo.cz</a>
+      </div>
     </div>
-  </footer>
+  </div>
+  <div class="container footer__bottom">
+    <p>© 2025 Texodo spol. s r.o. · Všechna práva vyhrazena</p>
+    <p>Pracovní oděvy · OOPP · Firemní textil · Záruční servis</p>
+  </div>
+</footer>
 
-  <script>
-    // Sticky nav shadow
-    const nav = document.querySelector('.nav');
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('nav--scrolled', window.scrollY > 20);
-    });
+<script>
+  // Nav scroll shadow
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('nav--scrolled', scrollY > 20), {passive:true});
 
-    // Burger menu
-    const burger = document.querySelector('.nav__burger');
-    const navLinks = document.querySelector('.nav__links');
-    burger.addEventListener('click', () => {
-      navLinks.classList.toggle('nav__links--open');
-    });
+  // Burger
+  document.querySelector('.nav__burger').addEventListener('click', () => {
+    document.querySelector('.nav__links').classList.toggle('nav__links--open');
+  });
 
-    // Scroll reveal
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) e.target.classList.add('visible');
-      });
-    }, { threshold: 0.12 });
-    document.querySelectorAll('.card, .stat, .pillar, .feature__text, .feature__visual, .contact__info, .contact__form')
-      .forEach(el => observer.observe(el));
-  </script>
+  // Close menu on link click
+  document.querySelectorAll('.nav__links a').forEach(a => {
+    a.addEventListener('click', () => document.querySelector('.nav__links').classList.remove('nav__links--open'));
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, {threshold: 0.1});
+  document.querySelectorAll('.card,.stat,.service-card,.reveal,.feature__text,.feature__visual,.contact__left,.contact__right,.about__content')
+    .forEach(el => observer.observe(el));
+
+  // Form submit
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.form-submit');
+    btn.textContent = '✓ Odesláno! Ozveme se vám.';
+    btn.style.background = '#10b981';
+    btn.disabled = true;
+  }
+</script>
 </body>
 </html>
